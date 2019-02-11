@@ -1,0 +1,45 @@
+version: "3.0"
+services:
+
+  rtorrent:
+    build: https://github.com/StayPirate/alpine-rtorrent.git
+    image: alpine-rtorrent:local
+    ports:
+      - "50000:50000"
+      - "6881:6881"
+      - "6881:6881/udp"
+    volumes:
+      - rtorrent_session:/home/rtorrent/rtorrent/.session
+      - download:/home/rtorrent/rtorrent/download
+    networks:
+      rtorrent_net:
+        aliases:
+          - rtorrent
+
+  flood:
+    build: https://github.com/jfurrow/flood.git
+    image: flood:local
+    ports:
+      - "80:3000"
+    volumes:
+      - flood_data:/data
+    networks:
+      rtorrent_net:
+        aliases:
+          - flood
+    depends_on:
+      - rtorrent
+
+volumes:
+   rtorrent_session:
+   download:
+     driver: local
+     driver_opts: 
+       type: cifs
+       device: \\seedbox\Kodi\rtorrent
+       o: username=${RTORRNET_USERNAME},password=${RTORRNET_PASSWORD},file_mode=0777,dir_mode=0777
+#       o: credentials=/etc/cifs.cred
+   flood_data:
+
+networks:
+  rtorrent_net:

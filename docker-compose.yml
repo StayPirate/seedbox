@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3.5"
 services:
 
   rtorrent:
@@ -36,10 +36,13 @@ volumes:
      driver: local
      driver_opts: 
        type: cifs
-       device: \\seedbox\Kodi\rtorrent
-       o: username=${RTORRNET_USERNAME},password=${RTORRNET_PASSWORD},file_mode=0777,dir_mode=0777
-#       o: credentials=/etc/cifs.cred
+       device: ${SHARE_PATH}
+       o: username=${SHARE_USER},password=${SHARE_PASS},file_mode=0777,dir_mode=0777
    flood_data:
 
 networks:
   rtorrent_net:
+    name: rtorrent_net
+    ipam:
+      config:
+        - subnet: 192.168.201.0/29

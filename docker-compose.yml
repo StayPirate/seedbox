@@ -1,8 +1,11 @@
-version: "3.5"
+version: "2"
 services:
 
   rtorrent:
-    build: https://github.com/StayPirate/alpine-rtorrent.git
+    build: 
+      context: https://github.com/StayPirate/alpine-rtorrent.git
+      args:
+        - UGID=${RTORRENT_UID}
     image: alpine-rtorrent:local
     ports:
       - "50000:50000"
@@ -15,6 +18,7 @@ services:
       rtorrent_net:
         aliases:
           - rtorrent
+    restart: always
 
   flood:
     build: https://github.com/jfurrow/flood.git
@@ -27,6 +31,7 @@ services:
       rtorrent_net:
         aliases:
           - flood
+    restart: always
     depends_on:
       - rtorrent
 
@@ -34,15 +39,14 @@ volumes:
    rtorrent_session:
    download:
      driver: local
-     driver_opts: 
+     driver_opts:
        type: cifs
        device: ${SHARE_PATH}
-       o: username=${SHARE_USER},password=${SHARE_PASS},file_mode=0777,dir_mode=0777
+       o: username=${SHARE_USER},password=${SHARE_PASS},gid=${RTORRENT_UID},file_mode=0774,dir_mode=0774
    flood_data:
 
 networks:
   rtorrent_net:
-    name: rtorrent_net
     ipam:
       config:
         - subnet: 192.168.201.0/29

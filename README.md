@@ -10,5 +10,5 @@ That's the composefile I use to quickly deploy and manage my own seedbox. Since 
 5. `docker-compose up`
 6. Open `http://localhost` in your browser.
 7. Create a new Flood account. Connect Flood to rTorrent using `rtorrent` as host and port `16891` (as for the screenshot below).
-    ![alt text](https://s5.nofilecdn.io/g/tZiZkxmJAfscqJiYGpwmihH34rGZeWW924QmJ7i7yLabNKz7RIkQ02d2UfXgywm9/p/flood.png "Flood Account Creation")  
+        ![alt text](https://s5.nofilecdn.io/g/tZiZkxmJAfscqJiYGpwmihH34rGZeWW924QmJ7i7yLabNKz7RIkQ02d2UfXgywm9/p/flood.png "Flood Account Creation")  
 8. Enjoy your torrents while **keep seeding!**

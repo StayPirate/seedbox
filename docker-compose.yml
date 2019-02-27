@@ -7,30 +7,26 @@ services:
       args:
         - UGID=${RTORRENT_UID}
     image: alpine-rtorrent:local
-    ports:
-      - "50000:50000"
-      - "6881:6881"
-      - "6881:6881/udp"
     volumes:
       - rtorrent_session:/home/rtorrent/rtorrent/.session
       - download:/home/rtorrent/rtorrent/download
     networks:
-      rtorrent_net:
+      rtorrent_vlan:
         aliases:
           - rtorrent
+        ipv4_address: 172.16.60.3
     restart: always
 
   flood:
     build: https://github.com/jfurrow/flood.git
     image: flood:local
-    ports:
-      - "80:3000"
     volumes:
       - flood_data:/data
     networks:
-      rtorrent_net:
+      rtorrent_vlan:
         aliases:
           - flood
+        ipv4_address: 172.16.60.2
     restart: always
     depends_on:
       - rtorrent
@@ -46,7 +42,11 @@ volumes:
    flood_data:
 
 networks:
-  rtorrent_net:
+  rtorrent_vlan:
+    driver: macvlan
+    driver_opts:
+      parent: enp1s0.60
     ipam:
       config:
-        - subnet: 192.168.201.0/29
+        - subnet: 172.16.60.0/29
+          gateway: 172.16.60.1

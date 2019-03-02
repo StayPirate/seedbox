@@ -7,6 +7,7 @@ services:
       args:
         - UGID=${RTORRENT_UID}
     image: alpine-rtorrent:local
+    container_name: seedbox-rtorrent
     volumes:
       - rtorrent_session:/home/rtorrent/rtorrent/.session
       - download:/home/rtorrent/rtorrent/download
@@ -20,6 +21,7 @@ services:
   flood:
     build: https://github.com/jfurrow/flood.git
     image: flood:local
+    container_name: seedbox-flood
     volumes:
       - flood_data:/data
     networks:

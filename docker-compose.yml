@@ -38,9 +38,9 @@ volumes:
    download:
      driver: local
      driver_opts:
-       type: cifs
-       device: ${SHARE_PATH}
-       o: username=${SHARE_USER},password=${SHARE_PASS},gid=${RTORRENT_UID},file_mode=0774,dir_mode=0774
+       type: nfs
+       device: ${NFS_PATH}
+       o: addr=${NFS_ADDR},nolock,rw
    flood_data:
 
 networks:
